@@ -1,0 +1,1 @@
+/home/user/rhodium-standard-repositories/examples/standard-library/target/debug/examples/basic_usage: /home/user/rhodium-standard-repositories/examples/standard-library/examples/basic_usage.rs /home/user/rhodium-standard-repositories/examples/standard-library/src/lib.rs
