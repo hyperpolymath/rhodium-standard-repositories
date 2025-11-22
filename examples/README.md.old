@@ -4,9 +4,7 @@
 
 This directory contains working examples of RSR-compliant projects at different compliance levels and for different use cases.
 
----
-
-## 📊 Overview
+## Overview
 
 The Rhodium Standard Repository defines three compliance levels based on the [COMPLIANCE_CHECKLIST.md](../COMPLIANCE_CHECKLIST.md):
 
@@ -15,8 +13,6 @@ The Rhodium Standard Repository defines three compliance levels based on the [CO
 | **Bronze** | ![Bronze](https://img.shields.io/badge/RSR-Bronze-cd7f32) | Basic RSR compliance | 75-89% | [rhodium-minimal](rhodium-minimal/) |
 | **Silver** | ![Silver](https://img.shields.io/badge/RSR-Silver-c0c0c0) | Strong RSR compliance | 90-99% | *(planned)* |
 | **Gold** | ![Gold](https://img.shields.io/badge/RSR-Gold-ffd700) | Full RSR compliance | 100% | *(planned)* |
-
----
 
 ## 📂 Available Examples
 
@@ -84,8 +80,6 @@ just run
 
 **Status**: Planned
 
----
-
 ## 📊 Compliance Level Comparison
 
 | Example | Level | % | Type Safety | Memory Safety | Offline-First | CRDT | Formal Verification | Container | IndieWeb |
@@ -99,8 +93,6 @@ just run
 - ✅ Fully implemented
 - ⚠️ Partially implemented
 - ❌ Not applicable / not implemented
-
----
 
 ## 🚀 Using These Examples
 
@@ -143,130 +135,142 @@ rhodium-init
 rhodium-init --name my-project --language rust --template minimal
 ```
 
----
+## Using These Examples
 
-## 📋 RSR Compliance Checklist
+### As Templates
 
-All examples demonstrate:
+Each example can serve as a template for your projects:
 
-### ✅ Required Files
-- README.md (project overview)
-- LICENSE.txt (dual: MIT + Palimpsest v0.8)
-- SECURITY.md (vulnerability reporting)
-- CONTRIBUTING.md (TPCF framework)
-- CODE_OF_CONDUCT.md
-- MAINTAINERS.md
-- CHANGELOG.md
-- .well-known/security.txt (RFC 9116)
-- .well-known/ai.txt (AI training policies)
-- .well-known/humans.txt (attribution)
+1. **Copy the structure**:
+   ```bash
+   cp -r examples/standard-library my-new-project
+   cd my-new-project
+   ```
 
-### ✅ Build System
-- justfile (task runner)
-- flake.nix (Nix reproducible builds)
-- .gitlab-ci.yml (CI/CD)
+2. **Customize for your project**:
+   - Update Cargo.toml with your project details
+   - Modify README.md
+   - Update .rhodium/config.toml
+   - Replace source code
 
-### ✅ Code Quality
-- SPDX headers on all source files
-- Type safety (language-dependent)
-- Memory safety (language-dependent)
-- Offline-first capability
+3. **Verify compliance**:
+   ```bash
+   rhodium check --level silver
+   ```
 
-See [../COMPLIANCE_CHECKLIST.md](../COMPLIANCE_CHECKLIST.md) for complete criteria.
+### As Learning Resources
 
----
+Study the progression:
+- How tests evolve from Bronze to Rhodium
+- How documentation becomes more comprehensive
+- How automation increases at higher levels
+- How governance is implemented
 
-## 🛠️ Development Workflow
+### For CI/CD Integration
 
-### For Each Example
+Use the GitHub Actions workflows from Gold and Rhodium examples:
+- `enterprise-service/.github/workflows/ci.yml`
+- `enterprise-service/.github/workflows/security.yml`
+
+## Rhodium CLI Usage
+
+Each example demonstrates Rhodium CLI commands:
 
 ```bash
-# Enter example directory
-cd rhodium-minimal
+# Initialize a new project
+rhodium init --level bronze
 
-# Enter Nix development shell (recommended)
-nix develop
+# Provision files for a level
+rhodium provision --level silver
 
-# View available commands
-just --list
+# Check compliance
+rhodium check --level gold
 
-# Build
-just build
+# Generate compliance report
+rhodium report --format html
 
-# Run
-just run
-
-# Test
-just test
-
-# Validate RSR compliance
-just validate
+# Validate all levels
+rhodium validate --all-levels
 ```
 
-### Common Commands
+## Directory Structure Patterns
 
-All examples support these `just` recipes:
+### Bronze (Minimal)
+```
+project/
+├── .rhodium/config.toml
+├── src/
+├── README.md
+├── LICENSE
+└── CODE_OF_CONDUCT.md
+```
 
-- `just build` - Build the project
-- `just run` - Run the application
-- `just test` - Run tests
-- `just validate` - Full RSR compliance check
-- `just audit-licence` - Verify SPDX headers
-- `just format` - Format code
-- `just lint` - Run linter
-- `just clean` - Clean build artifacts
+### Silver (Standard)
+```
+project/
+├── .rhodium/config.toml
+├── src/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   └── PULL_REQUEST_TEMPLATE.md
+├── README.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── CITATION.cff
+```
+
+### Gold (Enterprise)
+```
+project/
+├── .rhodium/config.toml
+├── src/
+├── .github/workflows/
+├── docs/adr/
+├── ARCHITECTURE.md
+├── SECURITY.md
+└── [all Silver files]
+```
+
+### Rhodium (Advanced)
+```
+project/
+├── .rhodium/config.toml
+├── src/           # Rust
+├── python/        # Python
+├── docs/
+│   ├── adr/
+│   └── notebooks/
+├── MODEL_CARD.md
+├── DATA_CARD.md
+└── [all Gold files]
+```
+
+## Contributing
+
+To add a new example:
+
+1. Follow the pattern of existing examples
+2. Ensure it builds and tests pass
+3. Document the unique features
+4. Update this README
+5. Submit a pull request
+
+## License
+
+All examples are licensed under MIT OR Apache-2.0.
+
+## Resources
+
+- [Rhodium Framework Documentation](https://rhodium-framework.org)
+- [Tutorial](TUTORIAL.md)
+- [Rhodium CLI](https://github.com/Hyperpolymath/rhodium-cli)
+
+## Questions?
+
+- Check the [TUTORIAL.md](TUTORIAL.md)
+- Read individual example READMEs
+- Open an issue for questions
 
 ---
 
-## 📚 Additional Resources
-
-### RSR Specifications
-
-- [CLAUDE.md](../CLAUDE.md) - Complete RSR specification
-- [COMPLIANCE_CHECKLIST.md](../COMPLIANCE_CHECKLIST.md) - 150+ checkpoints
-- [CCCP-MANIFESTO.md](../CCCP-MANIFESTO.md) - Philosophical foundation
-
-### Tool Designs
-
-- [docs/rhodium-init-design.md](../docs/rhodium-init-design.md) - Ada TUI tool
-- [docs/elm-gui-design.md](../docs/elm-gui-design.md) - Web-based GUI
-
-### Templates
-
-- [templates/](../templates/) - Generic project templates
-
----
-
-## 🤝 Contributing Examples
-
-Want to contribute a new example?
-
-1. **Propose**: Open an issue describing your example
-2. **Design**: Outline the architecture and compliance level
-3. **Implement**: Create the example following RSR patterns
-4. **Document**: Include all required documentation
-5. **Validate**: Run `just validate` to ensure compliance
-6. **Submit**: Create a Merge Request
-
-**Requirements**:
-- Must achieve minimum Bronze compliance (75%)
-- Must include all required documentation files
-- Must have working build system (justfile + flake.nix)
-- Must have .well-known/ directory
-- Must have SPDX headers on all source files
-
-See [../CONTRIBUTING.md](../CONTRIBUTING.md) for details.
-
----
-
-## 📞 Contact
-
-- **Questions**: Open an issue
-- **Security**: See .well-known/security.txt
-- **Discussion**: GitLab discussions
-
----
-
-*"Learning by example, excellence through practice."*
-
-— The Rhodium Standard
+**Last Updated**: 2025-11-22
