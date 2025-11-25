@@ -12,7 +12,7 @@
 #   3 - Non-compliant (<75%)
 #   4 - Error running audit
 
-set -euo pipefail
+set -uo pipefail
 
 # =============================================================================
 # Configuration
