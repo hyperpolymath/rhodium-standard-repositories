@@ -3,6 +3,7 @@
 
 ### Allowed Languages (Primary → Fallback)
 - **Systems/ML**: Rust
+- **Scientific/CLI**: Julia (high-performance, strongly-typed)
 - **Web/Scripts**: ReScript → TypeScript (legacy only)
 - **TUI**: Ada/SPARK
 - **WordPress**: PHP (with security CI)

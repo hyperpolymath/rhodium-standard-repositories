@@ -510,6 +510,7 @@ This is **graduated trust without gatekeeping**—everyone can contribute, but s
 
 ✅ **ReScript** (OCaml soundness) - Frontend, type-safe web
 ✅ **Rust** - Systems programming, memory safety
+✅ **Julia** - Scientific computing, CLI tools, high-performance
 ✅ **Ada + SPARK** - Safety-critical, formal verification
 ✅ **Elixir** - Fault-tolerant services, OTP patterns
 ✅ **Haskell** - Pure functional validation, registry logic
