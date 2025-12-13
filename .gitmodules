@@ -1,0 +1,6 @@
+[submodule "satellites/rhodium-pipeline"]
+	path = satellites/rhodium-pipeline
+	url = https://github.com/hyperpolymath/rhodium-pipeline.git
+[submodule "satellites/rsr-template-repo"]
+	path = satellites/rsr-template-repo
+	url = https://github.com/hyperpolymath/rsr-template-repo.git
