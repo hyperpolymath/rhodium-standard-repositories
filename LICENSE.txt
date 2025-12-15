@@ -1,13 +1,19 @@
-SPDX-License-Identifier: MIT AND Palimpsest-0.8
-SPDX-FileCopyrightText: 2025 The Rhodium Standard Contributors
+SPDX-License-Identifier: MIT OR AGPL-3.0-or-later
+SPDX-FileCopyrightText: 2024-2025 hyperpolymath
 
-This project is dual-licensed under the MIT License and the Palimpsest License v0.8.
+================================================================================
+DUAL LICENSE: MIT OR AGPL-3.0-or-later
+================================================================================
 
-===============================================================================
+This project is dual-licensed under the MIT License OR the GNU Affero General
+Public License v3.0 or later. You may choose to use, copy, modify, and
+distribute this work under the terms of EITHER license (your choice).
+
+--------------------------------------------------------------------------------
 MIT LICENSE
-===============================================================================
+--------------------------------------------------------------------------------
 
-Copyright (c) 2025 The Rhodium Standard Contributors
+Copyright (c) 2024-2025 hyperpolymath
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,80 +33,59 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-===============================================================================
-PALIMPSEST LICENSE v0.8
-===============================================================================
+--------------------------------------------------------------------------------
+GNU AFFERO GENERAL PUBLIC LICENSE v3.0 OR LATER
+--------------------------------------------------------------------------------
 
-The Palimpsest License establishes a framework for versioning, attribution,
-and transformation rights in collaborative works.
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
 
-Core Principles:
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
 
-1. ATTRIBUTION PRESERVATION
-   - All derivative works must maintain attribution chains
-   - Contributors retain moral rights to their contributions
-   - Transformation history must be traceable
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
 
-2. VERSIONING RIGHTS
-   - Original authors may version their contributions
-   - Forks must distinguish themselves from originals
-   - Version provenance must be documented
+The full text of the AGPL-3.0 is available at:
+  https://www.gnu.org/licenses/agpl-3.0.txt
 
-3. TRANSFORMATION FREEDOM
-   - Works may be transformed, remixed, and adapted
-   - Transformations must credit original sources
-   - Commercial use permitted with attribution
+--------------------------------------------------------------------------------
+CHOOSING YOUR LICENSE
+--------------------------------------------------------------------------------
 
-4. AI TRAINING RESTRICTIONS
-   - This work may NOT be used for training proprietary AI models
-   - Open-source AI training permitted with attribution
-   - Synthetic derivatives must disclose AI involvement
+You may choose to use this work under:
+  1. MIT License - Standard permissive open source license
+  2. AGPL-3.0-or-later - Copyleft license requiring source disclosure for
+     network services
 
-5. SOLIDARITY ECONOMICS
-   - Downstream commercial use should support upstream creators
-   - Funding transparency encouraged
-   - Community over extraction
+For most uses, MIT License provides maximum flexibility.
+For ensuring open source remains open (especially for SaaS/network services),
+AGPL-3.0-or-later provides stronger protections.
 
-6. REVOCATION
-   - Authors may revoke permissions for specific bad actors
-   - Revocation does not affect existing good-faith uses
-   - Community input required for major revocations
+================================================================================
+PALIMPSEST PHILOSOPHICAL OVERLAY (NON-BINDING)
+================================================================================
 
-GRANT OF RIGHTS:
+This project encourages (but does not legally require) adherence to the
+principles of the Palimpsest License - a framework for consent-based digital
+interaction and the future web.
 
-Subject to the above principles, you are granted perpetual, worldwide,
-non-exclusive, royalty-free rights to:
-- Use, copy, and distribute this work
-- Create derivative works
-- Use commercially with attribution
-- Sublicense with the same terms
+Core Principles (Encouraged):
+  - Respect for emotional and creative lineage
+  - Transparent AI training practices with explicit consent
+  - Preservation of metadata and attribution
+  - Protection of narrative intent and cultural context
 
-PROVENANCE TRACKING:
+The Palimpsest principles represent our vision for a consent-based internet.
+While not legally binding for use of this software, we encourage all users
+and contributors to familiarize themselves with these principles.
 
-All distributions must include:
-- This license text
-- Attribution chain in .well-known/provenance.json
-- Contributor list in MAINTAINERS.md or CONTRIBUTORS
-- Transformation history if work is derivative
+Learn more: https://github.com/hyperpolymath/palimpsest-license
 
-COMPATIBILITY:
-
-This license is compatible with:
-- MIT, Apache 2.0, BSD licenses (use both)
-- GPL family (choose GPL for combined works)
-- Creative Commons Attribution licenses
-
-This license is NOT compatible with:
-- Proprietary licenses without attribution
-- AI training for closed models
-- Attribution-stripping transformations
-
-For the full Palimpsest License specification, see:
-https://palimpsest.license.org/v0.8
-
-===============================================================================
-
-For questions about licensing:
-- Open an issue: https://gitlab.com/hyperpolymath/rhodium-standard-repositories/-/issues
-- Email: licensing@rhodium-standard.org
-- Consult: CONTRIBUTING.adoc for contribution terms
+================================================================================
+END OF LICENSE
+================================================================================
