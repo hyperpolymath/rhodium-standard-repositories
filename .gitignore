@@ -1,59 +1,79 @@
-# SPDX-License-Identifier: MIT AND Palimpsest-0.8
-# SPDX-FileCopyrightText: 2025 The Rhodium Standard Contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# RSR-compliant .gitignore
 
-# Build artifacts
-target/
-dist/
-build/
-_build/
-*.o
-*.so
-*.dylib
-*.dll
-*.exe
-
-# Dependencies
-node_modules/
-.mix/
-deps/
-vendor/
-
-# Environment
-.env
-.env.local
-*.env
-
-# Editor
-.vscode/
-.idea/
+# OS & Editor
+.DS_Store
+Thumbs.db
 *.swp
 *.swo
 *~
-.DS_Store
+.idea/
+.vscode/
 
-# Nix
-result
-result-*
+# Build
+/target/
+/_build/
+/build/
+/dist/
+/out/
 
-# Temporary files
-tmp/
-temp/
-*.tmp
-*.log
+# Dependencies
+/node_modules/
+/vendor/
+/deps/
+/.elixir_ls/
 
-# Test coverage
-coverage/
-.coverage
+# Rust
+# Cargo.lock  # Keep for binaries
+
+# Elixir
+/cover/
+/doc/
+*.ez
+erl_crash.dump
+
+# Julia
+*.jl.cov
+*.jl.mem
+/Manifest.toml
+
+# ReScript
+/lib/bs/
+/.bsb.lock
+
+# Python (SaltStack only)
+__pycache__/
+*.py[cod]
+.venv/
+
+# Ada/SPARK
+*.ali
+/obj/
+/bin/
+
+# Haskell
+/.stack-work/
+/dist-newstyle/
+
+# Chapel
+*.chpl.tmp.*
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# Test/Coverage
+/coverage/
 htmlcov/
 
-# Package managers
-Cargo.lock
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-mix.lock
+# Logs
+*.log
+/logs/
 
-# Except for examples (they need lock files)
-!examples/*/Cargo.lock
-!examples/*/mix.lock
-!examples/*/flake.lock
+# Temp
+/tmp/
+*.tmp
+*.bak
