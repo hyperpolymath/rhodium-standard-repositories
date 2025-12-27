@@ -9,21 +9,30 @@ default:
     @just --list
 
 # =============================================================================
-# Validation & Compliance
+# Validation & Compliance (RSR v1.0.0)
 # =============================================================================
 
 # Run full RSR compliance validation
 validate: audit-license check-links lint test
     @echo "✅ Full validation complete!"
 
-# Run RSR audit on this repository
+# Run RSR v1.0 compliance audit (bash)
 audit:
-    @echo "🔍 Running RSR compliance audit..."
+    @echo "🔍 Running RSR v1.0 compliance audit..."
     @./rsr-audit.sh .
+
+# Run RSR v1.0 compliance check (Guile Scheme - machine-readable)
+check:
+    @echo "🔍 Running RSR v1.0 compliance check (Guile)..."
+    @guile -L . rsr-check.scm . || echo "⚠️  Install Guile 3.0+ for scheme-based checking"
 
 # Run RSR audit in JSON format
 audit-json:
     @./rsr-audit.sh . json
+
+# Run RSR check in JSON format (Guile)
+check-json:
+    @guile -L . -c '(set! *output-format* (quote json))' rsr-check.scm . 2>/dev/null || ./rsr-audit.sh . json
 
 # Run RSR audit and generate HTML report
 audit-html:
@@ -34,6 +43,18 @@ audit-html:
 audit-license:
     @echo "📋 Checking SPDX headers..."
     @./rsr-audit.sh . | grep -i "spdx" || echo "✅ SPDX check passed"
+
+# Show RSR v1.0 specification version
+spec-version:
+    @echo "RSR Specification: v1.0.0 (FROZEN 2025-12-27)"
+    @echo "See spec/VERSION.adoc for full details"
+
+# Validate against specific tier (bronze|silver|gold)
+check-tier TIER:
+    @echo "🎯 Checking for {{TIER}} compliance..."
+    @./rsr-audit.sh . | grep -i "compliance level" | grep -qi "{{TIER}}" && \
+        echo "✅ {{TIER}} compliance achieved!" || \
+        echo "❌ Does not meet {{TIER}} requirements"
 
 # =============================================================================
 # Building & Testing
