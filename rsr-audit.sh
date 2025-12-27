@@ -3,16 +3,28 @@
 # SPDX-FileCopyrightText: 2025 The Rhodium Standard Contributors
 #
 # RSR Audit Script - Comprehensive Repository Compliance Checker
+# Validates against RSR v1.0.0 (FROZEN 2025-12-27)
+#
 # Usage: ./rsr-audit.sh [path-to-repo] [--format json|text|html]
 #
 # Exit codes:
-#   0 - Gold compliance (100%)
+#   0 - Gold/Rhodium compliance (100%)
 #   1 - Silver compliance (90-99%)
 #   2 - Bronze compliance (75-89%)
 #   3 - Non-compliant (<75%)
 #   4 - Error running audit
+#
+# Specification Reference: spec/VERSION.adoc
+# Machine-readable spec: spec.scm/
 
 set -uo pipefail
+
+# =============================================================================
+# RSR v1.0 Specification Version
+# =============================================================================
+
+RSR_SPEC_VERSION="1.0.0"
+RSR_FREEZE_DATE="2025-12-27"
 
 # =============================================================================
 # Configuration
@@ -333,6 +345,72 @@ audit_category_4_architecture() {
 }
 
 # =============================================================================
+# Category 5: Web Standards & Protocols (10%)
+# =============================================================================
+
+audit_category_5_web_standards() {
+    log_section "Category 5: Web Standards & Protocols"
+
+    # .well-known/ directory
+    check_dir_exists ".well-known" ".well-known/ directory present"
+
+    # security.txt RFC 9116 compliance
+    if [[ -f "$REPO_PATH/.well-known/security.txt" ]]; then
+        check_file_contains ".well-known/security.txt" "Contact:" "security.txt has Contact field (RFC 9116)"
+        check_file_contains ".well-known/security.txt" "Expires:" "security.txt has Expires field"
+        check_file_contains ".well-known/security.txt" "Preferred-Languages:" "security.txt has Preferred-Languages"
+    fi
+
+    # ai.txt for AI crawling policies
+    check_file_exists ".well-known/ai.txt" ".well-known/ai.txt (AI training policies)"
+
+    # humans.txt
+    check_file_exists ".well-known/humans.txt" ".well-known/humans.txt (attribution)"
+
+    # provenance.json (Gold tier)
+    if [[ -f "$REPO_PATH/.well-known/provenance.json" ]]; then
+        log_success ".well-known/provenance.json present (content provenance)"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+}
+
+# =============================================================================
+# Category 6: Semantic Web & IndieWeb (5%)
+# =============================================================================
+
+audit_category_6_semantic_web() {
+    log_section "Category 6: Semantic Web & IndieWeb"
+
+    # Check for schema.org/JSON-LD
+    if grep -rq "schema.org\|application/ld+json" "$REPO_PATH" 2>/dev/null; then
+        log_success "Schema.org/JSON-LD markup detected"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    else
+        log_info "No Schema.org markup (optional)"
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Check for microformats
+    if grep -rq "h-card\|h-entry\|rel=\"me\"" "$REPO_PATH" 2>/dev/null; then
+        log_success "Microformats detected (h-card, h-entry)"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    else
+        log_info "No microformats (optional for libraries)"
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Check for webmention
+    if grep -rq "webmention" "$REPO_PATH" 2>/dev/null; then
+        log_success "Webmention support detected"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    else
+        log_info "No Webmention (optional)"
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+}
+
+# =============================================================================
 # Category 7: FOSS & Licensing (10 checks)
 # =============================================================================
 
@@ -399,6 +477,127 @@ audit_category_10_community() {
 
     # Maintainers
     check_file_exists "MAINTAINERS.md" "MAINTAINERS.md present"
+}
+
+# =============================================================================
+# Category 8: Cognitive Ergonomics (5%)
+# =============================================================================
+
+audit_category_8_cognitive_ergonomics() {
+    log_section "Category 8: Cognitive Ergonomics"
+
+    # Consistent directory structure
+    if [[ -d "$REPO_PATH/src" ]] || [[ -d "$REPO_PATH/lib" ]]; then
+        log_success "Standard source directory structure (src/ or lib/)"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Progressive disclosure (docs directory)
+    if [[ -d "$REPO_PATH/docs" ]]; then
+        log_success "docs/ directory for progressive disclosure"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Examples directory
+    if [[ -d "$REPO_PATH/examples" ]]; then
+        log_success "examples/ directory present"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Accessibility (alt text in markdown)
+    if [[ -f "$REPO_PATH/README.md" ]]; then
+        # Check for images with alt text
+        if grep -q '!\[' "$REPO_PATH/README.md" 2>/dev/null; then
+            if ! grep -q '!\[\]' "$REPO_PATH/README.md" 2>/dev/null; then
+                log_success "Images have alt text (WCAG compliance)"
+                PASSED_CHECKS=$((PASSED_CHECKS + 1))
+            else
+                log_warning "Some images missing alt text"
+            fi
+            TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+        fi
+    fi
+}
+
+# =============================================================================
+# Category 9: Lifecycle Management (5%)
+# =============================================================================
+
+audit_category_9_lifecycle() {
+    log_section "Category 9: Lifecycle Management"
+
+    # CHANGELOG present
+    check_file_exists "CHANGELOG.md" "CHANGELOG.md present"
+
+    # Semantic versioning indicators
+    if [[ -f "$REPO_PATH/CHANGELOG.md" ]]; then
+        check_file_contains "CHANGELOG.md" "\\[.*\\]" "CHANGELOG uses version brackets"
+    fi
+
+    # Pinned versions (Cargo.lock, flake.lock, etc.)
+    local has_lockfile=false
+    if [[ -f "$REPO_PATH/Cargo.lock" ]] || [[ -f "$REPO_PATH/flake.lock" ]] || [[ -f "$REPO_PATH/mix.lock" ]]; then
+        log_success "Dependency lockfile present (pinned versions)"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+        has_lockfile=true
+    else
+        log_warning "No lockfile found (dependencies not pinned)"
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Deprecation policy (in docs or CHANGELOG)
+    if grep -rq "deprecat\|deprecated\|Deprecated" "$REPO_PATH" 2>/dev/null; then
+        log_success "Deprecation notices documented"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+}
+
+# =============================================================================
+# Category 11: Mutually Assured Accountability (5%)
+# =============================================================================
+
+audit_category_11_maa() {
+    log_section "Category 11: Mutually Assured Accountability (MAA)"
+
+    # Audit trails (Git history)
+    if [[ -d "$REPO_PATH/.git" ]]; then
+        local commit_count
+        commit_count=$(cd "$REPO_PATH" && git rev-list --count HEAD 2>/dev/null || echo "0")
+        if [[ "$commit_count" -gt 0 ]]; then
+            log_success "Git history as audit trail ($commit_count commits)"
+            PASSED_CHECKS=$((PASSED_CHECKS + 1))
+        fi
+        TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+    fi
+
+    # Provenance tracking (.well-known/provenance.json)
+    if [[ -f "$REPO_PATH/.well-known/provenance.json" ]]; then
+        log_success "Provenance tracking enabled"
+        PASSED_CHECKS=$((PASSED_CHECKS + 1))
+    fi
+    TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+
+    # Signed commits (optional)
+    if [[ -d "$REPO_PATH/.git" ]]; then
+        local signed_commits
+        signed_commits=$(cd "$REPO_PATH" && git log --oneline --show-signature 2>/dev/null | grep -c "Good signature" || echo "0")
+        if [[ "$signed_commits" -gt 0 ]]; then
+            log_success "GPG signed commits detected ($signed_commits)"
+            PASSED_CHECKS=$((PASSED_CHECKS + 1))
+        else
+            log_info "No signed commits (optional but recommended)"
+        fi
+        TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
+    fi
+
+    # MAINTAINERS.md with clear attribution
+    if [[ -f "$REPO_PATH/MAINTAINERS.md" ]]; then
+        check_file_contains "MAINTAINERS.md" "@\\|email\\|Email" "MAINTAINERS.md has contact info"
+    fi
 }
 
 # =============================================================================
@@ -544,6 +743,8 @@ output_json_report() {
 
     cat <<EOF
 {
+  "spec_version": "$RSR_SPEC_VERSION",
+  "spec_freeze_date": "$RSR_FREEZE_DATE",
   "repository": "$REPO_PATH",
   "audit_date": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
   "total_checks": $TOTAL_CHECKS,
@@ -557,6 +758,19 @@ output_json_report() {
     "gold": $GOLD_THRESHOLD,
     "silver": $SILVER_THRESHOLD,
     "bronze": $BRONZE_THRESHOLD
+  },
+  "categories": {
+    "foundational_infrastructure": "15%",
+    "documentation_standards": "10%",
+    "security_architecture": "15%",
+    "architecture_principles": "10%",
+    "web_standards": "10%",
+    "semantic_web": "5%",
+    "foss_licensing": "10%",
+    "cognitive_ergonomics": "5%",
+    "lifecycle_management": "5%",
+    "community_governance": "10%",
+    "maa": "5%"
   }
 }
 EOF
@@ -644,6 +858,8 @@ main() {
         echo -e "${PURPLE}║              🎖️  RSR COMPLIANCE AUDIT SYSTEM 🎖️                   ║${NC}"
         echo -e "${PURPLE}║        Rhodium Standard Repository - Automated Validation         ║${NC}"
         echo -e "${PURPLE}║                                                                    ║${NC}"
+        echo -e "${PURPLE}║          Specification: v${RSR_SPEC_VERSION} (FROZEN ${RSR_FREEZE_DATE})            ║${NC}"
+        echo -e "${PURPLE}║                                                                    ║${NC}"
         echo -e "${PURPLE}╚════════════════════════════════════════════════════════════════════╝${NC}"
         echo ""
     fi
@@ -654,14 +870,19 @@ main() {
         exit 4
     fi
 
-    # Run audit categories
-    audit_category_1_infrastructure
-    audit_category_2_documentation
-    audit_category_3_security
-    audit_category_4_architecture
-    audit_category_7_licensing
-    audit_category_10_community
-    audit_additional_checks
+    # Run all 11 RSR v1.0 compliance categories
+    audit_category_1_infrastructure    # 15%
+    audit_category_2_documentation     # 10%
+    audit_category_3_security          # 15%
+    audit_category_4_architecture      # 10%
+    audit_category_5_web_standards     # 10%
+    audit_category_6_semantic_web      # 5%
+    audit_category_7_licensing         # 10%
+    audit_category_8_cognitive_ergonomics  # 5%
+    audit_category_9_lifecycle         # 5%
+    audit_category_10_community        # 10%
+    audit_category_11_maa              # 5%
+    audit_additional_checks            # Bonus
 
     # Calculate results
     local score
