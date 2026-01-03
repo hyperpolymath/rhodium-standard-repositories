@@ -1,8 +1,10 @@
+image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[MPL-2.0,link="https://opensource.org/licenses/MPL-2.0"]
+image:https://img.shields.io/badge/Philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
+
 // SPDX-License-Identifier: MIT AND Palimpsest-0.8
 // SPDX-FileCopyrightText: 2025 The Rhodium Standard Contributors
 = Rhodium Standard Repositories (RSR)
 
-image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 :toc: left
 :toclevels: 3
 :icons: font
@@ -10,7 +12,6 @@ image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="htt
 :experimental:
 
 image::https://img.shields.io/badge/RSR-Gold%20(100%25)-ffd700[RSR Compliance,link=https://gitlab.com/hyperpolymath/rhodium-standard-repositories]
-image::https://img.shields.io/badge/License-MIT%20%2B%20Palimpsest-blue[License]
 image::https://img.shields.io/badge/CCCP-Certified-red[CCCP]
 
 == Overview
@@ -53,11 +54,7 @@ Rhodium is the *rarest and most precious* of all metals, chosen for specific sym
 
 === AI Context Files
 
-
-
 RSR repositories include three machine-readable Scheme files for AI assistant context preservation:
-
-
 
 [cols="1,3",options="header"]
 
@@ -65,19 +62,13 @@ RSR repositories include three machine-readable Scheme files for AI assistant co
 
 | File | Purpose
 
-
-
 | `META.scm`
 
 | Architecture decisions (ADRs), development practices, design rationale
 
-
-
 | `ECOSYSTEM.scm`
 
 | Project ecosystem position, relationships, explicit boundaries
-
-
 
 | `STATE.scm`
 
@@ -85,10 +76,7 @@ RSR repositories include three machine-readable Scheme files for AI assistant co
 
 |===
 
-
-
 These files work alongside `.claude/CLAUDE.md` (or similar AI instruction files) to provide structured context that persists across AI conversation sessions. See link:docs/ai-context-files.md[AI Context Files Specification] for complete documentation and links to the specification repositories.
-
 
 == Quick Start
 
