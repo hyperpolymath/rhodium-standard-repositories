@@ -313,3 +313,46 @@ status:
 # Open documentation in browser
 docs-open:
     @xdg-open README.adoc || open README.adoc || echo "Please open README.adoc manually"
+
+# =============================================================================
+# Containers (nerdctl-first, podman-fallback)
+# =============================================================================
+
+# Detect container runtime: nerdctl > podman > docker
+[private]
+container-cmd:
+    #!/usr/bin/env bash
+    if command -v nerdctl >/dev/null 2>&1; then
+        echo "nerdctl"
+    elif command -v podman >/dev/null 2>&1; then
+        echo "podman"
+    elif command -v docker >/dev/null 2>&1; then
+        echo "docker"
+    else
+        echo "ERROR: No container runtime found (install nerdctl, podman, or docker)" >&2
+        exit 1
+    fi
+
+# Build container image
+container-build tag="latest":
+    #!/usr/bin/env bash
+    CTR=$(just container-cmd)
+    if [ -f Containerfile ]; then
+        echo "Building with $CTR..."
+        $CTR build -t rhodium-standard-repositories:{{tag}} -f Containerfile .
+    else
+        echo "No Containerfile found"
+    fi
+
+# Run container
+container-run tag="latest" *args:
+    #!/usr/bin/env bash
+    CTR=$(just container-cmd)
+    $CTR run --rm -it rhodium-standard-repositories:{{tag}} {{args}}
+
+# Push container image
+container-push registry="ghcr.io/hyperpolymath" tag="latest":
+    #!/usr/bin/env bash
+    CTR=$(just container-cmd)
+    $CTR tag rhodium-standard-repositories:{{tag}} {{registry}}/rhodium-standard-repositories:{{tag}}
+    $CTR push {{registry}}/rhodium-standard-repositories:{{tag}}
